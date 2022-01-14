@@ -1,0 +1,6 @@
+GET http://localhost:8080/test
+Accept: application/json
+Content-Type: application/json
+Authentication: Lessor 221
+
+###
