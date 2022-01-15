@@ -1,6 +1,6 @@
-package com.example.preauth.account.code;
+package com.example.preauth.domain.account.code;
 
-import com.example.preauth.code.DisplayName;
+import com.example.preauth.domain.commons.code.DisplayName;
 
 public enum AccountType implements DisplayName {
 

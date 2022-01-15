@@ -1,19 +1,20 @@
 package com.example.preauth.security;
 
-import com.example.preauth.account.domain.Account;
-import com.example.preauth.account.repository.AccountRepository;
+import com.example.preauth.domain.account.Account;
+import com.example.preauth.domain.account.repository.AccountRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.AuthenticationUserDetailsService;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
-import org.springframework.security.web.authentication.preauth.PreAuthenticatedGrantedAuthoritiesUserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.Optional;
-
+/**
+ * {@link org.springframework.security.web.authentication.preauth.RequestHeaderAuthenticationFilter} 에서 넘겨준 토큰에 담긴 헤더값을 사용하여
+ * 사용자 정보를 조회한다.
+ */
 @Service @AllArgsConstructor
 public class CustomPreAuthenticationUserDetailService implements AuthenticationUserDetailsService<PreAuthenticatedAuthenticationToken> {
 
@@ -22,18 +23,21 @@ public class CustomPreAuthenticationUserDetailService implements AuthenticationU
     @Override
     public UserDetails loadUserDetails(PreAuthenticatedAuthenticationToken token) throws UsernameNotFoundException {
         String name = token.getName();
+
         if(StringUtils.hasText(name)){
             Account account = repository.findByAccountId(name)
                     .orElseThrow(() -> new UsernameNotFoundException("사용자 정보를 찿을수 없습니다."));
             return User.builder()
                     .roles(account.getAccountType().name())
-                    .username(token.getName())
+                    .username(name)
+                    .password("")
                     .build();
         }
 
         return User.builder()
                 .roles(SecurityConfig.ROLE_ANONYMOUS)
                 .username("GUEST")
+                .password("")
                 .build();
 
 

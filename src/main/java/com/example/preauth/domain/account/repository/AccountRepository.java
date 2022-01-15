@@ -1,6 +1,6 @@
-package com.example.preauth.account.repository;
+package com.example.preauth.domain.account.repository;
 
-import com.example.preauth.account.domain.Account;
+import com.example.preauth.domain.account.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

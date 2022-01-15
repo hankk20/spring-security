@@ -1,13 +1,12 @@
 package com.example.preauth.account.repository;
 
-import com.example.preauth.account.code.AccountType;
-import com.example.preauth.account.domain.Account;
+import com.example.preauth.domain.account.code.AccountType;
+import com.example.preauth.domain.account.Account;
+import com.example.preauth.domain.account.repository.AccountRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.Commit;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 class AccountRepositoryTest {

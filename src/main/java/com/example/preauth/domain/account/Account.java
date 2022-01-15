@@ -1,18 +1,18 @@
-package com.example.preauth.account.domain;
+package com.example.preauth.domain.account;
 
-import com.example.preauth.account.code.AccountType;
+import com.example.preauth.domain.account.code.AccountType;
+import com.example.preauth.domain.commons.AuditProperties;
 import lombok.*;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 
-@Getter @NoArgsConstructor @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-
+@Getter @NoArgsConstructor @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 @Entity @Table(name="account")
-public class Account {
+public class Account extends AuditProperties {
 
     @EqualsAndHashCode.Include
-    @Id @GeneratedValue(strategy = GenerationType.AUTO) @Column(name = "id", nullable = false)
+    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE) @Column(name = "id", nullable = false)
     private Long id;
 
     @Setter
