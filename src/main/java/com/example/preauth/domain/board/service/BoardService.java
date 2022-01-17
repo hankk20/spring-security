@@ -36,12 +36,11 @@ public class BoardService {
 
     /**
      * 관리자만 강제 수정 가능
-     * @param writer
      * @param request
      * @return
      */
     @PreAuthorize("hasRole('ADMIN')")
-    public long forceUpdate(Account writer, BoardModifyRequest request){
+    public long forceUpdate(BoardModifyRequest request){
         Board board = findOrElseThrow(request.getId());
         return update(board, request);
     }
