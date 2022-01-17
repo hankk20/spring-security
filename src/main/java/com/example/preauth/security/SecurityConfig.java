@@ -64,6 +64,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         requestHeaderAuthenticationFilter.setPrincipalRequestHeader(SECURITY_HEADER); //인증정보가 담김 헤더 키 지정
         requestHeaderAuthenticationFilter.setAuthenticationManager(authenticationManager()); //위에서 설정한 인증관리자 등록
         requestHeaderAuthenticationFilter.setContinueFilterChainOnUnsuccessfulAuthentication(false); //실패시 계속 진행 여부
+        requestHeaderAuthenticationFilter.setExceptionIfHeaderMissing(false);
         return requestHeaderAuthenticationFilter;
     }
 
@@ -75,10 +76,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+                .antMatchers("/pre-db/**")
+                .permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
-                .addFilterAt(requestHeaderAuthenticationFilter(), RequestHeaderAuthenticationFilter.class);
+                .csrf().disable()
+                .headers().frameOptions().sameOrigin().and()
+                .addFilter(requestHeaderAuthenticationFilter());
+
     }
 
 

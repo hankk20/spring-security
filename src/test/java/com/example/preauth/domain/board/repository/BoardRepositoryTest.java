@@ -25,7 +25,7 @@ class BoardRepositoryTest {
     @Commit
     void test_simple(){
         Account writer = accountRepository.findByAccountId("Lessor 21").get();
-        Board board = new Board(writer, "test contests");
+        Board board = new Board(writer, "test title", "test contents");
         boardRepository.save(board);
     }
 }

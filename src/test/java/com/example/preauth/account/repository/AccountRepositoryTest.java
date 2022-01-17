@@ -20,7 +20,6 @@ class AccountRepositoryTest {
         Account testUser = Account.builder()
                 .accountId("Realtor 47")
                 .accountType(AccountType.REALTOR)
-                .quit(false)
                 .nickname("테스트유저")
                 .build();
 
