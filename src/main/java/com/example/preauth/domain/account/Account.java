@@ -11,7 +11,7 @@ import javax.persistence.*;
  * 수정가능한 항목에만 setter 메소드를 만든다.
  * 생성자에는 필수값들로 채운다.
  */
-@Getter @NoArgsConstructor @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
+@Getter @NoArgsConstructor @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false) @ToString
 @Entity @Table(name="account")
 public class Account extends AuditProperties {
 
