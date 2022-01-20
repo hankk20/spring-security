@@ -30,7 +30,7 @@ public class BoardService {
     public long update(Account writer, BoardModifyRequest request){
         Board board = findOrElseThrow(request.getId());
         //수정권한 검사
-        board.checkUpdatePermission(writer);
+        board.checkPermission(writer);
         return update(board, request);
     }
 

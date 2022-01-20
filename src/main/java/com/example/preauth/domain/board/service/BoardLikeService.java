@@ -2,16 +2,10 @@ package com.example.preauth.domain.board.service;
 
 import com.example.preauth.domain.account.Account;
 import com.example.preauth.domain.board.Board;
-import com.example.preauth.domain.board.BoardLike;
-import com.example.preauth.domain.board.QBoardLike;
 import com.example.preauth.domain.board.predicate.BoardLikePredicate;
 import com.example.preauth.domain.board.repository.BoardLikeRepository;
-import com.querydsl.core.types.Predicate;
-import com.querydsl.core.types.dsl.BooleanExpression;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -33,8 +27,9 @@ public class BoardLikeService {
 
     private long addLike(long boardId, Account account){
         Board board = boardService.findOrElseThrow(boardId);
-        BoardLike save = boardLikeRepository.save(new BoardLike(board, account));
-        return save.getId();
+        board.addLike(account);
+
+        return board.getId();
     }
 
 }

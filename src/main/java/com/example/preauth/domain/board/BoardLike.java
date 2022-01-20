@@ -4,6 +4,7 @@ import com.example.preauth.domain.account.Account;
 import com.example.preauth.domain.commons.AuditProperties;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -15,6 +16,7 @@ public class BoardLike extends AuditProperties {
     @Id @GeneratedValue(strategy = GenerationType.SEQUENCE) @Column(name = "id", nullable = false)
     private Long id;
 
+    @Setter
     @ManyToOne
     @JoinColumn(name = "board_id")
     private Board board;
