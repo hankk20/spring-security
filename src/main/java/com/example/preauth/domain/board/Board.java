@@ -34,8 +34,7 @@ public class Board extends AuditProperties {
     private List<Reply> replies = new ArrayList<>();
 
     /**
-     * Database에서 BoardLike를 로드를 하지 못하도록 Getter를 제외 함.
-     *
+     * Getter를 제외 함.
      * 좋아요가 많아지고 실수로 boardLikes를 Get 하면 해당 Board의 BoardLike를 Database에서 전체 로드 하기 때문에 성능에 문제가 있을 가능성이 있다.
      * 좋아요는 갯수만 가지고 있으면 되기 때문에 Getter를 제외한다.
      * 단방향으로 BoardLike에만 연관관계를 맵핑 시켜 놔도 되지만
@@ -54,6 +53,12 @@ public class Board extends AuditProperties {
     @Setter
     @Column(name = "contents", nullable = false, length = 4000)
     private String contents;
+
+    @Transient
+    private int boardLikeCount;
+
+    @Transient
+    private int replyCount;
 
     protected Board(){}
 

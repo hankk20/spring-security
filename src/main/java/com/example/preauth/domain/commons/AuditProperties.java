@@ -9,7 +9,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @MappedSuperclass
@@ -23,8 +23,8 @@ public abstract class AuditProperties {
     private String modifyId;
 
     @CreatedDate
-    private LocalDate createDate;
+    private LocalDateTime createDate;
 
     @LastModifiedDate
-    private LocalDate updateDate;
+    private LocalDateTime updateDate;
 }
