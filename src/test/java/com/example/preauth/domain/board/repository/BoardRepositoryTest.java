@@ -3,6 +3,7 @@ package com.example.preauth.domain.board.repository;
 import com.example.preauth.domain.account.Account;
 import com.example.preauth.domain.account.repository.AccountRepository;
 import com.example.preauth.domain.board.Board;
+import com.example.preauth.domain.board.Reply;
 import com.example.preauth.domain.board.dto.BoardDto;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -11,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.test.annotation.Commit;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -32,8 +34,15 @@ class BoardRepositoryTest {
         Account writer = accountRepository.findByAccountId("Lessor 21").get();
         Board board = new Board(writer, "test title", "test contents");
         boardRepository.save(board);
-        Board board2 = boardRepository.findBoard2(board.getId());
-        log.info("Result :: {}", board2.getWriter().getAccountType());
+        List<Account> all = accountRepository.findAll();
+        all.stream()
+                .forEach(board::addLike);
+
+        int i = 5;
+        for (int i1 = 0; i1 < i; i1++) {
+            board.addReply(new Reply(writer, "댓글"+i1));
+        }
+        boardRepository.save(board);
         BoardDto board1 = boardRepository.findBoard(board.getId());
         log.info("Result :: {}", board1);
     }

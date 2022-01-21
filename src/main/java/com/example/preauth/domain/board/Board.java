@@ -22,7 +22,7 @@ public class Board extends AuditProperties {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "account_id")
-    private Account writer;
+    private Account account;
 
     /**
      * 게시물에 댓글이 많을 경우 한번에 많은 댓글을 로드 하지 못하도록 Getter를 제외한다.
@@ -54,16 +54,10 @@ public class Board extends AuditProperties {
     @Column(name = "contents", nullable = false, length = 4000)
     private String contents;
 
-    @Transient
-    private int boardLikeCount;
-
-    @Transient
-    private int replyCount;
-
     protected Board(){}
 
-    public Board(Account writer, String title, String contents) {
-        this.writer = writer;
+    public Board(Account account, String title, String contents) {
+        this.account = account;
         this.title = title;
         this.contents = contents;
     }
@@ -90,6 +84,6 @@ public class Board extends AuditProperties {
     }
 
     public boolean equalsWriter(Account writer){
-        return this.writer.equals(writer);
+        return this.account.equals(writer);
     }
 }

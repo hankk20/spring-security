@@ -23,10 +23,10 @@ public class BoardDto implements Serializable {
     private DisplayDate createDate;
     private DisplayDate updateDate;
     private long likeCount;
-    //private List<ReplyDto> replies = new ArrayList<>();
+    private long replyCount;
 
     @QueryProjection
-    public BoardDto(long id, DisplayAccount accountName, String title, String contents, LocalDateTime createDate, LocalDateTime updateDate) {
+    public BoardDto(long id, DisplayAccount accountName, String title, String contents, LocalDateTime createDate, LocalDateTime updateDate, long likeCount, long replyCount) {
         this.id = id;
         this.accountName = accountName;
         this.title = title;
@@ -34,6 +34,6 @@ public class BoardDto implements Serializable {
         this.likeCount = likeCount;
         this.createDate = new BoardDisplayDate(createDate);
         this.updateDate =new BoardDisplayDate(updateDate);
-      //  this.replies = replies;
+        this.replyCount = replyCount;
     }
 }

@@ -20,7 +20,7 @@ public class Reply extends AuditProperties {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "account_id")
-    private Account writer;
+    private Account account;
 
     @ManyToOne
     @JoinColumn(name = "board_id")
@@ -28,8 +28,8 @@ public class Reply extends AuditProperties {
 
     protected Reply(){}
 
-    public Reply(Account writer, String contents){
-        this.writer = writer;
+    public Reply(Account account, String contents){
+        this.account = account;
         this.contents = contents;
     }
 
