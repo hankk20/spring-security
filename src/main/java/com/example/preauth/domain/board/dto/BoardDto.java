@@ -17,6 +17,7 @@ import java.util.List;
 @ToString
 public class BoardDto implements Serializable {
     private long id;
+    private long accountId;
     private DisplayAccount accountName;
     private String title;
     private String contents;
@@ -26,8 +27,9 @@ public class BoardDto implements Serializable {
     private long replyCount;
 
     @QueryProjection
-    public BoardDto(long id, DisplayAccount accountName, String title, String contents, LocalDateTime createDate, LocalDateTime updateDate, long likeCount, long replyCount) {
+    public BoardDto(long id, long accountId, DisplayAccount accountName, String title, String contents, LocalDateTime createDate, LocalDateTime updateDate, long likeCount, long replyCount) {
         this.id = id;
+        this.accountId = accountId;
         this.accountName = accountName;
         this.title = title;
         this.contents = contents;

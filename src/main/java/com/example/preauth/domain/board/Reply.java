@@ -12,7 +12,8 @@ import javax.persistence.*;
 public class Reply extends AuditProperties {
 
     @EqualsAndHashCode.Include
-    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE) @Column(name = "id", nullable = false)
+    @SequenceGenerator(name="reply_seq", sequenceName = "reply_seq", allocationSize = 1)
+    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE,  generator = "reply_seq") @Column(name = "id", nullable = false)
     private Long id;
 
     @Column(name = "contents", nullable = false, length = 4000)

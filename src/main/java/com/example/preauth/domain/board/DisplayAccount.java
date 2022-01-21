@@ -15,7 +15,7 @@ public class DisplayAccount {
         this.nickname = nickname;
     }
 
-    public String toString(){
+    public String display(){
         return String.format(format, nickname, type.getDisplayName());
     }
 }

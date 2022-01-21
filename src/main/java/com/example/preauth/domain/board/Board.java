@@ -17,7 +17,8 @@ import java.util.List;
 public class Board extends AuditProperties {
 
     @EqualsAndHashCode.Include
-    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE) @Column(name = "id", nullable = false)
+    @SequenceGenerator(name = "board_seq", sequenceName = "bard_seq", allocationSize = 1)
+    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "board_seq") @Column(name = "id", nullable = false)
     private Long id;
 
     @ManyToOne(optional = false)

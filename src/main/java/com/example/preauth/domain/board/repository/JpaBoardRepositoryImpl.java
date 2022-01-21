@@ -28,16 +28,17 @@ public class JpaBoardRepositoryImpl extends QuerydslRepositorySupport implements
                 .join(board.account, account)
                 .leftJoin(board.boardLikes, like)
                 .select(new QBoardDto(board.id,
-                        new QDisplayAccount(board.account.accountType, board.account.nickname),
-                        board.title,
-                        board.contents,
-                        board.createDate,
-                        board.updateDate,
-                        like.id.count(),
-                        JPAExpressions.select(count(reply.id))
-                                .from(reply)
-                                .where(reply.board.id.eq(id))
-                        ))
+                            account.id,
+                            new QDisplayAccount(board.account.accountType, board.account.nickname),
+                            board.title,
+                            board.contents,
+                            board.createDate,
+                            board.updateDate,
+                            like.id.count(),
+                            JPAExpressions.select(count(reply.id))
+                                    .from(reply)
+                                    .where(reply.board.id.eq(id))
+                            ))
                 .where(board.id.eq(id))
                 .groupBy(board.id)
                 .fetchOne();
