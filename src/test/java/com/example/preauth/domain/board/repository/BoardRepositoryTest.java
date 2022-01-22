@@ -3,13 +3,18 @@ package com.example.preauth.domain.board.repository;
 import com.example.preauth.domain.account.Account;
 import com.example.preauth.domain.account.repository.AccountRepository;
 import com.example.preauth.domain.board.Board;
+import com.example.preauth.domain.board.QBoard;
 import com.example.preauth.domain.board.Reply;
 import com.example.preauth.domain.board.dto.BoardDto;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.data.querydsl.QPageRequest;
 import org.springframework.test.annotation.Commit;
 
 import java.util.List;
@@ -45,5 +50,10 @@ class BoardRepositoryTest {
         boardRepository.save(board);
         BoardDto board1 = boardRepository.findBoard(board.getId());
         log.info("Result :: {}", board1);
+
+        Page<BoardDto> all1 = boardRepository.findAllBoard(null, PageRequest.of(0, 3, Sort.by("createDate").ascending().and(Sort.by("id").ascending())));
+        all1.stream()
+                .forEach(System.out::println);
+
     }
 }

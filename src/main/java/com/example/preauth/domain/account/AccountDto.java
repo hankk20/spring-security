@@ -1,7 +1,8 @@
 package com.example.preauth.domain.account;
 
 import com.example.preauth.domain.account.code.AccountType;
-import com.example.preauth.domain.board.DisplayAccount;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,7 +11,6 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class AccountDto implements Serializable {
     private Long id;
@@ -18,7 +18,6 @@ public class AccountDto implements Serializable {
     private String nickname;
     private AccountType accountType;
     private boolean quit = false;
-    private DisplayAccount displayAccount;
 
     @QueryProjection
     public AccountDto(Long id, String accountId, String nickname, AccountType accountType, boolean quit) {
@@ -27,5 +26,10 @@ public class AccountDto implements Serializable {
         this.nickname = nickname;
         this.accountType = accountType;
         this.quit = quit;
+    }
+
+    @JsonProperty
+    private String accountTypeName(){
+        return accountType.getDisplayName();
     }
 }

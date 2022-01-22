@@ -1,28 +1,25 @@
 package com.example.preauth.domain.board.dto;
 
-import com.example.preauth.domain.board.BoardDisplayDate;
-import com.example.preauth.domain.board.DisplayAccount;
+import com.example.preauth.domain.account.AccountDto;
 import com.querydsl.core.annotations.QueryProjection;
-import lombok.*;
+import lombok.Getter;
+import lombok.ToString;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter @ToString
 public class ReplyDto implements Serializable {
     private long id;
-    private long accountId;
-    private DisplayAccount displayAccount;
+    private AccountDto accountDto;
     private String contents;
-    private BoardDisplayDate createDate;
-    private BoardDisplayDate updateDate;
+    private LocalDateTime createDate;
+    private LocalDateTime updateDate;
 
     @QueryProjection
-    public ReplyDto(long id, long accountId, DisplayAccount displayAccount, String contents, BoardDisplayDate createDate, BoardDisplayDate updateDate) {
+    public ReplyDto(long id, AccountDto accountDto, String contents, LocalDateTime createDate, LocalDateTime updateDate) {
         this.id = id;
-        this.accountId = accountId;
-        this.displayAccount = displayAccount;
+        this.accountDto = accountDto;
         this.contents = contents;
         this.createDate = createDate;
         this.updateDate = updateDate;

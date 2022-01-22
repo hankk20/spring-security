@@ -1,12 +1,21 @@
 server:
   port: 8080
+  servlet:
+    encoding:
+      force: true
+      charset: UTF-8
 spring:
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    serialization:
+      INDENT_OUTPUT: true
   jpa:
     hibernate:
       ddl-auto: create-drop
     generate-ddl: true
     properties:
       hibernate:
+        show_sql: true
         format_sql: true
         use_sql_comments: true
     database: h2

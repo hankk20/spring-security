@@ -1,6 +1,7 @@
 package com.example.preauth.domain.account.code;
 
 import com.example.preauth.domain.commons.code.DisplayName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 public enum AccountType implements DisplayName {
 

@@ -1,8 +1,7 @@
 package com.example.preauth.domain.board.repository;
 
 import com.example.preauth.domain.account.QAccount;
-import com.example.preauth.domain.board.QBoardDisplayDate;
-import com.example.preauth.domain.board.QDisplayAccount;
+import com.example.preauth.domain.account.QAccountDto;
 import com.example.preauth.domain.board.QReply;
 import com.example.preauth.domain.board.Reply;
 import com.example.preauth.domain.board.dto.QReplyDto;
@@ -36,11 +35,14 @@ public class JpaReplyRepositoryImpl extends QuerydslRepositorySupport implements
         JPQLQuery<ReplyDto> query = defaultQuery
                 .select(new QReplyDto(
                         reply.id,
-                        account.id,
-                        new QDisplayAccount(account.accountType, account.nickname),
+                        new QAccountDto(account.id,
+                                account.accountId,
+                                account.nickname,
+                                account.accountType,
+                                account.quit),
                         reply.contents,
-                        new QBoardDisplayDate(reply.createDate),
-                        new QBoardDisplayDate(reply.updateDate)
+                        reply.createDate,
+                        reply.updateDate
                 ));
 
         JPQLQuery<ReplyDto> pageQuery = getQuerydsl().applyPagination(pageRequest, query);
