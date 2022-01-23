@@ -4,6 +4,7 @@ package com.example.preauth.domain.board.controller;
 import com.example.preauth.domain.account.Account;
 import com.example.preauth.domain.board.Board;
 import com.example.preauth.domain.board.dto.BoardDto;
+import com.example.preauth.domain.board.dto.BoardModifyRequest;
 import com.example.preauth.domain.board.dto.BoardWriteRequest;
 import com.example.preauth.domain.board.repository.BoardRepository;
 import com.example.preauth.domain.board.service.BoardService;
@@ -40,7 +41,18 @@ public class BoardController {
     }
 
     @PostMapping("/board")
-    public ResponseEntity<Long> write(@AuthenticationPrincipal Account account,@RequestBody BoardWriteRequest request){
+    public ResponseEntity<Long> write(@AuthenticationPrincipal(expression = "account") Account account,@RequestBody BoardWriteRequest request){
         return ResponseEntity.ok(boardService.write(account, request));
     }
+
+    @PutMapping("/board/{id}")
+    public ResponseEntity<Long> update(@AuthenticationPrincipal(expression = "account") Account account, @PathVariable("id") long id, @RequestBody BoardModifyRequest request){
+        return ResponseEntity.ok(boardService.update(id, account, request));
+    }
+
+    @DeleteMapping("/board/{id}")
+    public ResponseEntity<Long> delete(@AuthenticationPrincipal(expression = "account") Account account, @PathVariable("id") long id){
+        return ResponseEntity.ok(boardService.delete(account, id));
+    }
+
 }

@@ -29,8 +29,8 @@ public class BoardService {
      * @param request
      * @return
      */
-    public long update(Account writer, BoardModifyRequest request){
-        Board board = findOrElseThrow(request.getId());
+    public long update(long id, Account writer, BoardModifyRequest request){
+        Board board = findOrElseThrow(id);
         //수정권한 검사
         board.checkPermission(writer);
         return update(board, request);
@@ -42,8 +42,8 @@ public class BoardService {
      * @return
      */
     @PreAuthorize("hasRole('ADMIN')")
-    public long forceUpdate(BoardModifyRequest request){
-        Board board = findOrElseThrow(request.getId());
+    public long forceUpdate(long id, BoardModifyRequest request){
+        Board board = findOrElseThrow(id);
         return update(board, request);
     }
 
@@ -51,6 +51,13 @@ public class BoardService {
         board = request.update(board);
         boardRepository.save(board);
         return board.getId();
+    }
+
+    public long delete(Account account, long id){
+        Board board = findOrElseThrow(id);
+        board.checkPermission(account);
+        boardRepository.deleteById(id);
+        return id;
     }
 
     /**
