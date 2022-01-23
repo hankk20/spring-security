@@ -48,6 +48,7 @@ class BoardControllerTest {
 
     @Test
     @DisplayName("게시판조회")
+    @WithRequestHeaderUser("Lessor 21")
     void test_boards() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/boards")
                         .header(SecurityConfig.SECURITY_HEADER, "")

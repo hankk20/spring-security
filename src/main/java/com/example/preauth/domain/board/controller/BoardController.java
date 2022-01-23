@@ -30,8 +30,9 @@ public class BoardController {
     private final BoardRepository boardRepository;
 
     @GetMapping("/boards")
-    public ResponseEntity<List<BoardDto>> boardList(@QuerydslPredicate(root = Board.class) Predicate predicate, Pageable pageable){
-        Page<BoardDto> allBoard = boardRepository.findAllBoard(predicate, pageable);
+    public ResponseEntity<List<BoardDto>> boardList(@AuthenticationPrincipal(expression = "account") Account account
+            ,@QuerydslPredicate(root = Board.class) Predicate predicate, Pageable pageable){
+        Page<BoardDto> allBoard = boardRepository.findAllBoard(account.getId(), predicate, pageable);
         return ResponseEntity.ok(allBoard.getContent());
     }
 

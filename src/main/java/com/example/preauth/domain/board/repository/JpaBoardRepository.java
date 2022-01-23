@@ -14,4 +14,6 @@ public interface JpaBoardRepository {
     BoardDto findBoard(long id);
 
     Page<BoardDto> findAllBoard(Predicate predicate, Pageable pageRequest);
+
+    Page<BoardDto> findAllBoard(long accountId, Predicate predicate, Pageable pageRequest);
 }
