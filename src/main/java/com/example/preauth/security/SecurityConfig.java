@@ -2,6 +2,7 @@ package com.example.preauth.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -77,12 +78,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.antMatcher("/testsc")
-                        .authorizeHttpRequests()
+        http.authorizeRequests()
                 .antMatchers("/pre-db/**")
                 .permitAll()
+                .mvcMatchers(HttpMethod.POST, "/board")
+                .access("!hasRole('ANONYMOUS')")
                 .anyRequest()
-                .authenticated()
+                .permitAll()
                 .and()
                 .csrf().disable()
                 .headers().frameOptions().sameOrigin().and()

@@ -4,6 +4,9 @@ server:
     encoding:
       force: true
       charset: UTF-8
+  error:
+    whitelabel:
+      enabled: true
 spring:
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss

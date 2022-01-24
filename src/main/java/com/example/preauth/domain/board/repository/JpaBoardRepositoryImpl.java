@@ -9,10 +9,6 @@ import com.example.preauth.domain.board.QReply;
 import com.example.preauth.domain.board.dto.BoardDto;
 import com.example.preauth.domain.board.dto.QBoardDto;
 import com.querydsl.core.types.Predicate;
-import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.types.dsl.BooleanOperation;
-import com.querydsl.core.types.dsl.BooleanPath;
-import com.querydsl.core.types.dsl.BooleanTemplate;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.JPQLQuery;
 import org.springframework.data.domain.Page;
@@ -24,26 +20,22 @@ import static com.querydsl.core.types.ExpressionUtils.count;
 
 public class JpaBoardRepositoryImpl extends QuerydslRepositorySupport implements JpaBoardRepository {
 
+    QBoard board = QBoard.board;
+
     public JpaBoardRepositoryImpl() {
         super(Board.class);
     }
 
     @Override
-    public BoardDto findBoard(long id){
-        QBoard board = QBoard.board;
-        return getBoardDtoQuery(null)
+    public BoardDto findBoard(long id, long accountId){
+        return getBoardDtoQuery(accountId)
                 .where(board.id.eq(id))
                 .fetchOne();
     }
 
     @Override
     public Page<BoardDto> findAllBoard(Predicate predicate, Pageable pageRequest){
-        QBoard board = QBoard.board;
-        QAccount account = QAccount.account;
-
-        JPQLQuery<Board> countQuery = from(board)
-                .join(board.account, account)
-                .where(predicate);
+        JPQLQuery<Board> countQuery = createCountQuery(predicate);
 
         JPQLQuery<BoardDto> query = getBoardDtoQuery(null)
                 .where(predicate);
@@ -54,18 +46,20 @@ public class JpaBoardRepositoryImpl extends QuerydslRepositorySupport implements
 
     @Override
     public Page<BoardDto> findAllBoard(long accountId, Predicate predicate, Pageable pageRequest){
-        QBoard board = QBoard.board;
-        QAccount account = QAccount.account;
-
-        JPQLQuery<Board> countQuery = from(board)
-                .join(board.account, account)
-                .where(predicate);
+        JPQLQuery<Board> countQuery = createCountQuery(predicate);
 
         JPQLQuery<BoardDto> query = getBoardDtoQuery(accountId)
                 .where(predicate);
 
         JPQLQuery<BoardDto> boardDtoJPQLQuery = getQuerydsl().applyPagination(pageRequest, query);
         return PageableExecutionUtils.getPage(boardDtoJPQLQuery.fetch(), pageRequest, countQuery::fetchCount);
+    }
+
+    private JPQLQuery<Board> createCountQuery(Predicate predicate){
+        QAccount account = QAccount.account;
+        return from(board)
+                .join(board.account, account)
+                .where(predicate);
     }
 
     private JPQLQuery<BoardDto> getBoardDtoQuery(Long id){

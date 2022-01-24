@@ -11,6 +11,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureWebMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.http.MediaType;
@@ -23,13 +25,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.nio.charset.Charset;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@EnableJpaAuditing
 @AutoConfigureMockMvc
 @Slf4j
 class BoardControllerTest {
@@ -39,18 +41,10 @@ class BoardControllerTest {
     @Autowired ObjectMapper objectMapper;
 
     @Test
-    @DisplayName("비인증 사용자 테스트")
-    void testanonymous() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/test")
-                        .header(SecurityConfig.SECURITY_HEADER, ""))
-                .andExpect(MockMvcResultMatchers.status().isForbidden());
-    }
-
-    @Test
     @DisplayName("게시판조회")
     @WithRequestHeaderUser("Lessor 21")
     void test_boards() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/boards")
+        mockMvc.perform(MockMvcRequestBuilders.get("/board")
                         .header(SecurityConfig.SECURITY_HEADER, "")
                         .characterEncoding(Charset.defaultCharset())
                         .queryParam("sort", "createDate,asc")

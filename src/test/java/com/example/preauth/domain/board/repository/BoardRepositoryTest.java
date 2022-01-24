@@ -48,7 +48,7 @@ class BoardRepositoryTest {
             board.addReply(new Reply(writer, "댓글"+i1));
         }
         boardRepository.save(board);
-        BoardDto board1 = boardRepository.findBoard(board.getId());
+        BoardDto board1 = boardRepository.findBoard(board.getId(), writer.getId());
         log.info("Result :: {}", board1);
 
         Page<BoardDto> all1 = boardRepository.findAllBoard(null, PageRequest.of(0, 3, Sort.by("createDate").ascending().and(Sort.by("id").ascending())));

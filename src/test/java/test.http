@@ -1,6 +1,6 @@
-GET http://localhost:8080/testsc
+GET http://localhost:8080/boardss
 Accept: application/json
 Content-Type: application/json
-Authentication: Lessor 221
+Authentication: Lessor 21
 
 ###

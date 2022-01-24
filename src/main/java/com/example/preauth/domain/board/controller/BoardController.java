@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@RestController("/board")
 @Slf4j
 @RequiredArgsConstructor
 public class BoardController {
@@ -29,30 +29,34 @@ public class BoardController {
     private final BoardService boardService;
     private final BoardRepository boardRepository;
 
-    @GetMapping("/boards")
-    public ResponseEntity<List<BoardDto>> boardList(@AuthenticationPrincipal(expression = "account") Account account
-            ,@QuerydslPredicate(root = Board.class) Predicate predicate, Pageable pageable){
+    @GetMapping
+    public ResponseEntity<List<BoardDto>> boardList(@AuthenticationPrincipal(expression = "account") Account account,
+                                                    @QuerydslPredicate(root = Board.class) Predicate predicate, Pageable pageable){
         Page<BoardDto> allBoard = boardRepository.findAllBoard(account.getId(), predicate, pageable);
         return ResponseEntity.ok(allBoard.getContent());
     }
 
-    @GetMapping("/board/{id}")
-    public ResponseEntity<BoardDto> board(@PathVariable("id") long id){
-        return ResponseEntity.ok(boardRepository.findBoard(id));
-    }
-
-    @PostMapping("/board")
-    public ResponseEntity<Long> write(@AuthenticationPrincipal(expression = "account") Account account,@RequestBody BoardWriteRequest request){
+    @PostMapping
+    public ResponseEntity<Long> write(@AuthenticationPrincipal(expression = "account") Account account,
+                                      @RequestBody BoardWriteRequest request){
         return ResponseEntity.ok(boardService.write(account, request));
     }
 
-    @PutMapping("/board/{id}")
-    public ResponseEntity<Long> update(@AuthenticationPrincipal(expression = "account") Account account, @PathVariable("id") long id, @RequestBody BoardModifyRequest request){
+    @GetMapping("/{id}")
+    public ResponseEntity<BoardDto> board(@AuthenticationPrincipal(expression = "account")Account account,
+                                          @PathVariable("id") long id){
+        return ResponseEntity.ok(boardRepository.findBoard(id, account.getId()));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Long> update(@AuthenticationPrincipal(expression = "account") Account account,
+                                       @PathVariable("id") long id, @RequestBody BoardModifyRequest request){
         return ResponseEntity.ok(boardService.update(id, account, request));
     }
 
-    @DeleteMapping("/board/{id}")
-    public ResponseEntity<Long> delete(@AuthenticationPrincipal(expression = "account") Account account, @PathVariable("id") long id){
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Long> delete(@AuthenticationPrincipal(expression = "account") Account account,
+                                       @PathVariable("id") long id){
         return ResponseEntity.ok(boardService.delete(account, id));
     }
 

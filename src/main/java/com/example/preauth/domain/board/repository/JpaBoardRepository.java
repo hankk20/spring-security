@@ -10,8 +10,7 @@ import org.springframework.data.querydsl.QPageRequest;
 
 public interface JpaBoardRepository {
 
-
-    BoardDto findBoard(long id);
+    BoardDto findBoard(long id, long accountId);
 
     Page<BoardDto> findAllBoard(Predicate predicate, Pageable pageRequest);
 
