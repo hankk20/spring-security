@@ -2,13 +2,20 @@ package com.example.preauth.domain.board.service;
 
 import com.example.preauth.domain.account.Account;
 import com.example.preauth.domain.board.Board;
+import com.example.preauth.domain.board.dto.BoardDto;
 import com.example.preauth.domain.board.dto.BoardModifyRequest;
 import com.example.preauth.domain.board.dto.BoardWriteRequest;
 import com.example.preauth.domain.board.repository.BoardRepository;
+import com.example.preauth.web.exception.CustomSystemException;
+import com.querydsl.core.types.Predicate;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -67,6 +74,6 @@ public class BoardService {
      */
     public Board findOrElseThrow(long id){
         return boardRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("게시글 정보를 찿을 수 없습니다.")); //Exception 정의 필요
+                .orElseThrow(() -> new CustomSystemException("게시글 정보를 찿을 수 없습니다.", HttpStatus.NOT_FOUND)); //Exception 정의 필요
     }
 }

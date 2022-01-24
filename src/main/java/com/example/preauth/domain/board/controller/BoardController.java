@@ -19,9 +19,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
-@RestController("/board")
+@RestController
 @Slf4j
 @RequiredArgsConstructor
 public class BoardController {
@@ -29,32 +30,32 @@ public class BoardController {
     private final BoardService boardService;
     private final BoardRepository boardRepository;
 
-    @GetMapping
+    @GetMapping("/board")
     public ResponseEntity<List<BoardDto>> boardList(@AuthenticationPrincipal(expression = "account") Account account,
                                                     @QuerydslPredicate(root = Board.class) Predicate predicate, Pageable pageable){
         Page<BoardDto> allBoard = boardRepository.findAllBoard(account.getId(), predicate, pageable);
         return ResponseEntity.ok(allBoard.getContent());
     }
 
-    @PostMapping
+    @PostMapping("/board")
     public ResponseEntity<Long> write(@AuthenticationPrincipal(expression = "account") Account account,
                                       @RequestBody BoardWriteRequest request){
         return ResponseEntity.ok(boardService.write(account, request));
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/board/{id}")
     public ResponseEntity<BoardDto> board(@AuthenticationPrincipal(expression = "account")Account account,
-                                          @PathVariable("id") long id){
+                                          @PathVariable(value = "id", required = true) long id){
         return ResponseEntity.ok(boardRepository.findBoard(id, account.getId()));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/board/{id}")
     public ResponseEntity<Long> update(@AuthenticationPrincipal(expression = "account") Account account,
                                        @PathVariable("id") long id, @RequestBody BoardModifyRequest request){
         return ResponseEntity.ok(boardService.update(id, account, request));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/board/{id}")
     public ResponseEntity<Long> delete(@AuthenticationPrincipal(expression = "account") Account account,
                                        @PathVariable("id") long id){
         return ResponseEntity.ok(boardService.delete(account, id));

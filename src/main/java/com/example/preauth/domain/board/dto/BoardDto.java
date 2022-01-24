@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @ToString
 public class BoardDto implements Serializable {
     private long id;
-    private AccountDto accountDto;
+    private AccountDto account;
     private String title;
     private String contents;
     private LocalDateTime createDate;
@@ -22,9 +22,9 @@ public class BoardDto implements Serializable {
     private boolean liked;
 
     @QueryProjection
-    public BoardDto(long id, AccountDto accountDto, String title, String contents, LocalDateTime createDate, LocalDateTime updateDate, long likeCount, long replyCount, boolean liked) {
+    public BoardDto(long id, AccountDto account, String title, String contents, LocalDateTime createDate, LocalDateTime updateDate, long likeCount, long replyCount, boolean liked) {
         this.id = id;
-        this.accountDto = accountDto;
+        this.account = account;
         this.title = title;
         this.contents = contents;
         this.likeCount = likeCount;

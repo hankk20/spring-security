@@ -32,6 +32,7 @@ import java.nio.charset.Charset;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@EnableJpaAuditing
 @AutoConfigureMockMvc
 @Slf4j
 class BoardControllerTest {
@@ -42,23 +43,20 @@ class BoardControllerTest {
 
     @Test
     @DisplayName("게시판조회")
-    @WithRequestHeaderUser("Lessor 21")
+    //@WithRequestHeaderUser("Lessor 21")
     void test_boards() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/board")
-                        .header(SecurityConfig.SECURITY_HEADER, "")
                         .characterEncoding(Charset.defaultCharset())
                         .queryParam("sort", "createDate,asc")
                         .queryParam("sort", "id,desc"))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                ;
+                .andExpect(MockMvcResultMatchers.status().isOk());
 
     }
     @Test
     @DisplayName("단건조회")
     void test_board() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/board/1")
-                        .header(SecurityConfig.SECURITY_HEADER, ""))
+        mockMvc.perform(MockMvcRequestBuilders.get("/board/1"))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
         ;
@@ -67,15 +65,32 @@ class BoardControllerTest {
 
     @Test
     @DisplayName("게시판글쓰기")
+    @WithRequestHeaderUser("Lessor 21")
     void test_noraml() throws Exception {
         BoardWriteRequest request = new BoardWriteRequest();
         request.setTitle("제목");
         request.setContents("내용");
-
         mockMvc.perform(MockMvcRequestBuilders.post("/board")
-                        .header(SecurityConfig.SECURITY_HEADER, "Lessor 21")
+                       // .header(SecurityConfig.SECURITY_HEADER, "Lessor 21")
+                        .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
+                .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    @DisplayName("게시판글쓰기 권한오류")
+    //@WithRequestHeaderUser("Lessor 21")
+    void test_write_permission() throws Exception {
+        BoardWriteRequest request = new BoardWriteRequest();
+        request.setTitle("제목");
+        request.setContents("내용");
+        mockMvc.perform(MockMvcRequestBuilders.post("/board")
+                        // .header(SecurityConfig.SECURITY_HEADER, "Lessor 21")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isForbidden());
     }
 
     @Test
@@ -95,6 +110,24 @@ class BoardControllerTest {
                         .content(objectMapper.writeValueAsString(boardModifyRequest))
                 )
                 .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    @DisplayName("게시판글수정")
+    @WithRequestHeaderUser("Realtor 11")
+    void test_modify_permission() throws Exception {
+        BoardWriteRequest request = new BoardWriteRequest();
+        request.setTitle("제목");
+        request.setContents("내용");
+        BoardModifyRequest boardModifyRequest = new BoardModifyRequest();
+        boardModifyRequest.setBoardWriteRequest(request);
+        log.info("Request Body :: {}", objectMapper.writeValueAsString(boardModifyRequest));
+        mockMvc.perform(MockMvcRequestBuilders.put("/board/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(boardModifyRequest))
+                )
+                .andExpect(MockMvcResultMatchers.status().isForbidden());
     }
 
 }

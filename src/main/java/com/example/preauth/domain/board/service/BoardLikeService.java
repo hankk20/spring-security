@@ -5,6 +5,7 @@ import com.example.preauth.domain.board.Board;
 import com.example.preauth.domain.board.BoardLike;
 import com.example.preauth.domain.board.predicate.BoardLikePredicate;
 import com.example.preauth.domain.board.repository.BoardLikeRepository;
+import com.example.preauth.web.exception.CustomBadRequestException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,7 @@ public class BoardLikeService {
 
     public long like(long boardId, Account account){
         if(alreadyLike(boardId, account)){
-            throw new RuntimeException("이미 좋아요를 한 게시물 입니다.");
+            throw new CustomBadRequestException("이미 좋아요를 한 게시물 입니다.");
         }
         return addLike(boardId, account);
     }

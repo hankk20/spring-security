@@ -1,5 +1,6 @@
 package com.example.preauth.security;
 
+import com.example.preauth.domain.account.Account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
@@ -8,7 +9,9 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider;
+import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.security.web.authentication.preauth.RequestHeaderAuthenticationFilter;
 
 @EnableWebSecurity(debug = true)
@@ -82,14 +85,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/pre-db/**")
                 .permitAll()
                 .mvcMatchers(HttpMethod.POST, "/board")
-                .access("!hasRole('ANONYMOUS')")
+                .not().hasAuthority("ANONYMOUS")
+                //.access("!hasRole('ROLE_ANONYMOUS')")
                 .anyRequest()
                 .permitAll()
+                .and()
+                .anonymous()
+                    .principal(anonymousPrincipal())
+                    .authorities(ROLE_ANONYMOUS)
                 .and()
                 .csrf().disable()
                 .headers().frameOptions().sameOrigin().and()
                 .addFilter(requestHeaderAuthenticationFilter());
 
+    }
+
+    private Object anonymousPrincipal(){
+        return CustomUser.builder()
+                .account(new Account(ROLE_ANONYMOUS, null, ROLE_ANONYMOUS))
+                .username(ROLE_ANONYMOUS)
+                .roles(ROLE_ANONYMOUS)
+                .build();
     }
 
 

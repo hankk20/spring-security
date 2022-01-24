@@ -2,11 +2,13 @@ package com.example.preauth.domain.board;
 
 import com.example.preauth.domain.account.Account;
 import com.example.preauth.domain.commons.AuditProperties;
+import com.example.preauth.web.exception.CustomSystemException;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.http.HttpStatus;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -80,7 +82,7 @@ public class Board extends AuditProperties {
      */
     public void checkPermission(Account writer){
         if(!equalsWriter(writer)){
-            throw new RuntimeException("권한이 없습니다."); //TODO Exception 정의하자
+            throw new CustomSystemException("권한이 없습니다.", HttpStatus.FORBIDDEN); //TODO Exception 정의하자
         }
     }
 
