@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 /**
@@ -23,20 +24,15 @@ public class CustomPreAuthenticationUserDetailService implements AuthenticationU
 
     @Override
     public UserDetails loadUserDetails(PreAuthenticatedAuthenticationToken token) throws UsernameNotFoundException {
+
         String name = token.getName();
 
-        if(StringUtils.hasText(name)){
-            Account account = repository.findByAccountId(name)
-                    .orElseThrow(() -> new UsernameNotFoundException("사용자 정보를 찿을수 없습니다. ["+name+"]"));
-            return CustomUser.builder()
-                    .roles(account.getAccountType().name())
-                    .username(name)
-                    .account(account)
-                    .build();
-        }
-
-        return null;
-
-
+        Account account = repository.findByAccountId(name)
+                .orElseThrow(() -> new UsernameNotFoundException("사용자 정보를 찿을수 없습니다. ["+name+"]"));
+        return CustomUser.builder()
+                .roles(account.getAccountType().name())
+                .username(name)
+                .account(account)
+                .build();
     }
 }
