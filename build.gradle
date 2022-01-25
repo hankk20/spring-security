@@ -25,6 +25,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
     implementation 'com.querydsl:querydsl-jpa'
+    implementation 'org.springframework.data:spring-data-envers:2.6.1'
     runtimeOnly 'com.h2database:h2'
     compileOnly 'org.projectlombok:lombok'
 

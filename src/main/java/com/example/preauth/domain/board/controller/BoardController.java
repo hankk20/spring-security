@@ -17,6 +17,7 @@ import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
@@ -39,7 +40,7 @@ public class BoardController {
 
     @PostMapping("/board")
     public ResponseEntity<Long> write(@AuthenticationPrincipal(expression = "account") Account account,
-                                      @RequestBody BoardWriteRequest request){
+                                      @RequestBody @Validated BoardWriteRequest request){
         return ResponseEntity.ok(boardService.write(account, request));
     }
 

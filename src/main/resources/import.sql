@@ -3,9 +3,9 @@ insert into account (create_date, create_id, modify_id, update_date,id, nickname
 insert into account (create_date, create_id, modify_id, update_date,id, nickname, account_type, account_id, quit) values(CURRENT_TIMESTAMP, 1, 1, CURRENT_TIMESTAMP,nextval('hibernate_sequence'), 'test3', 'REALTOR', 'Realtor 31', true);
 insert into account (create_date, create_id, modify_id, update_date,id, nickname, account_type, account_id, quit) values(CURRENT_TIMESTAMP, 1, 1, CURRENT_TIMESTAMP,nextval('hibernate_sequence'), 'test3', 'LESSEE', 'Lessee 1', true);
 
-insert into board (create_date, create_id, modify_id, update_date, account_id, contents, title, id) values(CURRENT_TIMESTAMP, 1, 1, CURRENT_TIMESTAMP, 1, 'content 1-1', 'title 1-1', nextval('bard_seq'));
-insert into board (create_date, create_id, modify_id, update_date, account_id, contents, title, id) values(CURRENT_TIMESTAMP, 1, 1, CURRENT_TIMESTAMP, 1, 'content 1-2', 'title 1-2', nextval('bard_seq'));
-insert into board (create_date, create_id, modify_id, update_date, account_id, contents, title, id) values(CURRENT_TIMESTAMP, 1, 1, CURRENT_TIMESTAMP, 2, 'content 2-1', 'title 2-1', nextval('bard_seq'));
+insert into board (create_date, create_id, modify_id, update_date, account_id, contents, title, id, deleted) values(CURRENT_TIMESTAMP, 1, 1, CURRENT_TIMESTAMP, 1, 'content 1-1', 'title 1-1', nextval('bard_seq'), false);
+insert into board (create_date, create_id, modify_id, update_date, account_id, contents, title, id, deleted) values(CURRENT_TIMESTAMP, 1, 1, CURRENT_TIMESTAMP, 1, 'content 1-2', 'title 1-2', nextval('bard_seq'), false);
+insert into board (create_date, create_id, modify_id, update_date, account_id, contents, title, id, deleted) values(CURRENT_TIMESTAMP, 1, 1, CURRENT_TIMESTAMP, 2, 'content 2-1', 'title 2-1', nextval('bard_seq'), false);
 
 insert into board_like (create_date, create_id, modify_id, update_date, account_id, board_id, id) values (CURRENT_TIMESTAMP, 1, 1, CURRENT_TIMESTAMP, 1, 1, nextval('hibernate_sequence'));
 insert into board_like (create_date, create_id, modify_id, update_date, account_id, board_id, id) values (CURRENT_TIMESTAMP, 1, 1, CURRENT_TIMESTAMP, 2, 1, nextval('hibernate_sequence'));

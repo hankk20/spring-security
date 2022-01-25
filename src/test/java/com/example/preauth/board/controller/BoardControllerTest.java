@@ -66,10 +66,10 @@ class BoardControllerTest {
     @Test
     @DisplayName("게시판글쓰기")
     @WithRequestHeaderUser("Lessor 21")
-    void test_noraml() throws Exception {
+    void test_write() throws Exception {
         BoardWriteRequest request = new BoardWriteRequest();
-        request.setTitle("");
-        request.setContents("");
+        request.setTitle("title");
+        request.setContents("test");
         mockMvc.perform(MockMvcRequestBuilders.post("/board")
                        // .header(SecurityConfig.SECURITY_HEADER, "Lessor 21")
                         .contentType(MediaType.APPLICATION_JSON)

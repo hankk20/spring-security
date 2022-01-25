@@ -9,6 +9,9 @@ import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.envers.AuditJoinTable;
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.RelationTargetAuditMode;
 import org.springframework.http.HttpStatus;
 
 import javax.persistence.*;
@@ -17,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter @EqualsAndHashCode(callSuper = false, onlyExplicitlyIncluded = true)
-@Entity @Table(name="board")
+@Entity @Table(name="board") @Audited
 public class Board extends AuditProperties {
 
     @EqualsAndHashCode.Include
@@ -25,6 +28,7 @@ public class Board extends AuditProperties {
     @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "board_seq") @Column(name = "id", nullable = false)
     private Long id;
 
+    @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
     @ManyToOne(optional = false)
     @JoinColumn(name = "account_id")
     private Account account;
@@ -35,6 +39,7 @@ public class Board extends AuditProperties {
      * 댓글 조회는 API를 별도로 만들어 Paging 처리하여 제공하는 편이 낫다.
      */
     @Getter(AccessLevel.NONE)
+    @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
     @OneToMany(mappedBy = "board", cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
     private List<Reply> replies = new ArrayList<>();
 
@@ -48,6 +53,7 @@ public class Board extends AuditProperties {
      */
     @JsonIgnore
     @Getter(AccessLevel.NONE)
+    @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
     @OneToMany(mappedBy = "board", cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
     private List<BoardLike> boardLikes = new ArrayList<>();
 

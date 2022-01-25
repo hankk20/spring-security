@@ -8,11 +8,13 @@ import com.example.preauth.domain.board.repository.BoardLikeRepository;
 import com.example.preauth.web.exception.CustomBadRequestException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
+@Transactional
 public class BoardLikeService {
 
     private final BoardLikeRepository boardLikeRepository;
