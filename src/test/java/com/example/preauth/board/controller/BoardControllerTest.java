@@ -68,8 +68,8 @@ class BoardControllerTest {
     @WithRequestHeaderUser("Lessor 21")
     void test_noraml() throws Exception {
         BoardWriteRequest request = new BoardWriteRequest();
-        request.setTitle("제목");
-        request.setContents("내용");
+        request.setTitle("");
+        request.setContents("");
         mockMvc.perform(MockMvcRequestBuilders.post("/board")
                        // .header(SecurityConfig.SECURITY_HEADER, "Lessor 21")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -86,7 +86,6 @@ class BoardControllerTest {
         request.setTitle("제목");
         request.setContents("내용");
         mockMvc.perform(MockMvcRequestBuilders.post("/board")
-                        // .header(SecurityConfig.SECURITY_HEADER, "Lessor 21")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andDo(MockMvcResultHandlers.print())

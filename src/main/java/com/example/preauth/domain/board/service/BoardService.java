@@ -63,7 +63,7 @@ public class BoardService {
     public long delete(Account account, long id){
         Board board = findOrElseThrow(id);
         board.checkPermission(account);
-        boardRepository.deleteById(id);
+        board.delete();
         return id;
     }
 

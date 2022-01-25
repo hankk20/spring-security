@@ -2,6 +2,7 @@ package com.example.preauth.domain.board;
 
 import com.example.preauth.domain.account.Account;
 import com.example.preauth.domain.commons.AuditProperties;
+import com.example.preauth.web.exception.CustomBadRequestException;
 import com.example.preauth.web.exception.CustomSystemException;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
@@ -11,6 +12,7 @@ import lombok.Setter;
 import org.springframework.http.HttpStatus;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,6 +59,12 @@ public class Board extends AuditProperties {
     @Column(name = "contents", nullable = false, length = 4000)
     private String contents;
 
+    @Setter
+    private LocalDateTime deletedDate;
+
+    @Setter
+    private boolean deleted;
+
     protected Board(){}
 
     public Board(Account account, String title, String contents) {
@@ -84,6 +92,14 @@ public class Board extends AuditProperties {
         if(!equalsWriter(writer)){
             throw new CustomSystemException("권한이 없습니다.", HttpStatus.FORBIDDEN); //TODO Exception 정의하자
         }
+    }
+
+    public void delete(){
+        if(deleted){
+            throw new CustomBadRequestException("이미 삭제된 게시물 입니다.");
+        }
+        deleted = true;
+        deletedDate = LocalDateTime.now();
     }
 
     public boolean equalsWriter(Account writer){
