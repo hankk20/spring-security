@@ -32,7 +32,6 @@ import java.nio.charset.Charset;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@EnableJpaAuditing
 @AutoConfigureMockMvc
 @Slf4j
 class BoardControllerTest {

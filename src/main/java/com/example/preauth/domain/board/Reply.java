@@ -4,13 +4,14 @@ import com.example.preauth.domain.account.Account;
 import com.example.preauth.domain.commons.AuditProperties;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.RelationTargetAuditMode;
 
 import javax.persistence.*;
 
 @Getter @EqualsAndHashCode(callSuper = false, onlyExplicitlyIncluded = true)
-@Entity @Table(name="reply") @Audited
+@Entity @Table(name="reply")
 public class Reply extends AuditProperties {
 
     @EqualsAndHashCode.Include
@@ -18,15 +19,14 @@ public class Reply extends AuditProperties {
     @Id @GeneratedValue(strategy = GenerationType.SEQUENCE,  generator = "reply_seq") @Column(name = "id", nullable = false)
     private Long id;
 
+    @Setter
     @Column(name = "contents", nullable = false, length = 4000)
     private String contents;
 
-    @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
     @ManyToOne(optional = false)
     @JoinColumn(name = "account_id")
     private Account account;
 
-    @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
     @ManyToOne
     @JoinColumn(name = "board_id")
     private Board board;

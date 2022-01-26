@@ -12,20 +12,17 @@ import javax.persistence.*;
 
 @Getter @EqualsAndHashCode(callSuper = false, onlyExplicitlyIncluded = true)
 @Entity @Table(name = "board_like")
-@Audited
 public class BoardLike extends AuditProperties {
 
     @EqualsAndHashCode.Include
     @Id @GeneratedValue(strategy = GenerationType.SEQUENCE) @Column(name = "id", nullable = false)
     private Long id;
 
-    @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
     @Setter
     @ManyToOne
     @JoinColumn(name = "board_id")
     private Board board;
 
-    @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
     @ManyToOne
     @JoinColumn(name = "account_id")
     private Account account;
