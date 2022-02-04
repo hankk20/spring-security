@@ -22,11 +22,12 @@ spring:
         format_sql: true
         use_sql_comments: true
     database: h2
-
   datasource:
     embedded-database-connection: h2
     name: pre
+    url: jdbc:h2:mem:pre_test
   h2:
+
     console:
       enabled: true
       path: /pre-db
