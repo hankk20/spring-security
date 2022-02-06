@@ -40,7 +40,7 @@ public class Board extends AuditProperties {
      * Board에서 댓글을 참조 해야 되는 로직은 없기 때문에 Getter가 없어도 무방하다.
      * 댓글 조회는 API를 별도로 만들어 Paging 처리하여 제공하는 편이 낫다.
      */
-    @Getter(AccessLevel.NONE)
+    //@Getter(AccessLevel.NONE)
     @NotAudited
     @OneToMany(mappedBy = "board", cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
     private List<Reply> replies = new ArrayList<>();

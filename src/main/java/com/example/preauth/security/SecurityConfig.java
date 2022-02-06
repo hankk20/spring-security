@@ -85,17 +85,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/pre-db/**")
                     .permitAll()
                 .mvcMatchers(HttpMethod.POST, "/board")
-                    .not()
-                        .hasRole("ANONYMOUS")
+                    .not().anonymous()
+                        //.hasRole("ANONYMOUS")
                 .anyRequest()
                     .permitAll()
                 .and()
+                .csrf().disable()
+                .headers().frameOptions().sameOrigin().and()
                 .anonymous()
                     .principal(anonymousPrincipal())
                     .authorities("ROLE_"+ROLE_ANONYMOUS) //Token에 들어가는 Authority는 ROLE과 Authority 구분없이 들어간다. prefix로 ROLE 있냐 없냐로 구분됨
                 .and()
-                .csrf().disable()
-                .headers().frameOptions().sameOrigin().and()
                 .addFilter(requestHeaderAuthenticationFilter());
 
     }

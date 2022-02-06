@@ -33,6 +33,10 @@ class BoardRepositoryTest {
     @Autowired
     AccountRepository accountRepository;
 
+    @Autowired
+    ReplyRepository replyRepository;
+
+
     @Test
     @Commit
     void test_simple(){
@@ -50,10 +54,19 @@ class BoardRepositoryTest {
         boardRepository.save(board);
         BoardDto board1 = boardRepository.findBoard(board.getId(), writer.getId());
         log.info("Result :: {}", board1);
-
+        List<Reply> replies = board.getReplies();
         Page<BoardDto> all1 = boardRepository.findAllBoard(new Long(1),null, PageRequest.of(0, 3, Sort.by("createDate").ascending().and(Sort.by("id").ascending())));
         all1.stream()
                 .forEach(System.out::println);
+
+    }
+    @Test
+    @Commit
+    void test_entitypath(){
+        List<Board> all = boardRepository.findAll();
+        all.size();
+
+
 
     }
 }

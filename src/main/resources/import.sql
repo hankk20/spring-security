@@ -27,3 +27,5 @@ insert into reply (create_date, create_id, modify_id, update_date, account_id, b
 insert into reply (create_date, create_id, modify_id, update_date, account_id, board_id, contents, id) values (CURRENT_TIMESTAMP, 1, 1, CURRENT_TIMESTAMP, 1, 1, '댓글13', nextval('reply_seq'));
 insert into reply (create_date, create_id, modify_id, update_date, account_id, board_id, contents, id) values (CURRENT_TIMESTAMP, 1, 1, CURRENT_TIMESTAMP, 1, 1, '댓글14', nextval('reply_seq'));
 insert into reply (create_date, create_id, modify_id, update_date, account_id, board_id, contents, id) values (CURRENT_TIMESTAMP, 1, 1, CURRENT_TIMESTAMP, 1, 1, '댓글15', nextval('reply_seq'));
+insert into reply (create_date, create_id, modify_id, update_date, account_id, board_id, contents, id) values (CURRENT_TIMESTAMP, 1, 1, CURRENT_TIMESTAMP, 1, 2, '댓글1', nextval('reply_seq'));
+insert into reply (create_date, create_id, modify_id, update_date, account_id, board_id, contents, id) values (CURRENT_TIMESTAMP, 1, 1, CURRENT_TIMESTAMP, 1, 2, '댓글2', nextval('reply_seq'));
