@@ -65,8 +65,14 @@ class BoardRepositoryTest {
     void test_entitypath(){
         List<Board> all = boardRepository.findAll();
         all.size();
+    }
 
-
-
+    @Test
+    @Commit
+    void test_elementCollection(){
+        Account writer = accountRepository.findByAccountId("Lessor 21").get();
+        Board board = new Board(writer, "test title", "test contents");
+        boardRepository.save(board);
+        board.addNoEntityLike(1);
     }
 }

@@ -59,6 +59,12 @@ public class Board extends AuditProperties {
     @OneToMany(mappedBy = "board", cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
     private List<BoardLike> boardLikes = new ArrayList<>();
 
+    @ElementCollection
+    @CollectionTable(name = "NO_ENTITY_LIKE",
+            joinColumns = {@JoinColumn(name = "board_id", referencedColumnName = "id"),}
+    )
+    private List<NotEntityBoardLike> notEntityBoardLikes;
+
     @Setter
     @Column(name = "title", nullable = false, length = 1000)
     private String title;
@@ -88,6 +94,10 @@ public class Board extends AuditProperties {
 
     public void addLike(Account liker){
         boardLikes.add(new BoardLike(this, liker));
+    }
+
+    public void addNoEntityLike(long accountId){
+        notEntityBoardLikes.add(NotEntityBoardLike.create(this.id, accountId));
     }
 
     /**
